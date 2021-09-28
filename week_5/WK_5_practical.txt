@@ -1,0 +1,1195 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 96,
+   "id": "de0b52d1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "library(ggplot2)\n",
+    "library(tidyverse)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "526a84d8",
+   "metadata": {},
+   "source": [
+    "Q0. Write a function that takes a vector and replaced it with the mean of the that vector\n",
+    "  * Let's call that function `replace_na_mean`\n",
+    "\n",
+    "  * Try your function using the following snippet:\n",
+    "\n",
+    "```\n",
+    "replace_na_mean(c(1, NA, 2, 3, 2, 2, NA))\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 84,
+   "id": "ef2e6b4d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### Write your code here\n",
+    "x_var <- c(1, NA, 2, 3, 2, 2, NA)\n",
+    "x_var[is.na(x_var)] = 14"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 80,
+   "id": "5482d392",
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<ol class=list-inline>\n",
+       "\t<li>FALSE</li>\n",
+       "\t<li>FALSE</li>\n",
+       "\t<li>FALSE</li>\n",
+       "\t<li>FALSE</li>\n",
+       "\t<li>FALSE</li>\n",
+       "\t<li>FALSE</li>\n",
+       "\t<li>FALSE</li>\n",
+       "</ol>\n"
+      ],
+      "text/latex": [
+       "\\begin{enumerate*}\n",
+       "\\item FALSE\n",
+       "\\item FALSE\n",
+       "\\item FALSE\n",
+       "\\item FALSE\n",
+       "\\item FALSE\n",
+       "\\item FALSE\n",
+       "\\item FALSE\n",
+       "\\end{enumerate*}\n"
+      ],
+      "text/markdown": [
+       "1. FALSE\n",
+       "2. FALSE\n",
+       "3. FALSE\n",
+       "4. FALSE\n",
+       "5. FALSE\n",
+       "6. FALSE\n",
+       "7. FALSE\n",
+       "\n",
+       "\n"
+      ],
+      "text/plain": [
+       "[1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "is.na(x_var)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 110,
+   "id": "27c38b3d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<ol class=list-inline>\n",
+       "\t<li>3</li>\n",
+       "\t<li>3.8</li>\n",
+       "\t<li>4</li>\n",
+       "\t<li>5</li>\n",
+       "\t<li>3</li>\n",
+       "\t<li>3.8</li>\n",
+       "\t<li>4</li>\n",
+       "\t<li>3.8</li>\n",
+       "</ol>\n"
+      ],
+      "text/latex": [
+       "\\begin{enumerate*}\n",
+       "\\item 3\n",
+       "\\item 3.8\n",
+       "\\item 4\n",
+       "\\item 5\n",
+       "\\item 3\n",
+       "\\item 3.8\n",
+       "\\item 4\n",
+       "\\item 3.8\n",
+       "\\end{enumerate*}\n"
+      ],
+      "text/markdown": [
+       "1. 3\n",
+       "2. 3.8\n",
+       "3. 4\n",
+       "4. 5\n",
+       "5. 3\n",
+       "6. 3.8\n",
+       "7. 4\n",
+       "8. 3.8\n",
+       "\n",
+       "\n"
+      ],
+      "text/plain": [
+       "[1] 3.0 3.8 4.0 5.0 3.0 3.8 4.0 3.8"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "replace_na_mean = function(x_var){\n",
+    "    x_var[is.na(x_var)] = mean(x_var, na.rm=TRUE)\n",
+    "    x_var\n",
+    "}\n",
+    "\n",
+    "\n",
+    "replace_na_mean(c(3, NA, 4, 5, 3, NA, 4, NA))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b4207bca",
+   "metadata": {},
+   "source": [
+    "Q1. Write a function that returns the sample space for the experiment consisting of samplign a 4 digit PIN\n",
+    "  * Call your function get_all_perms\n",
+    "\n",
+    "  * Essentially, your function does not take any arguments but returns the sample space consisting of all the four digit numbers\n",
+    "   \n",
+    "  * The function `expand.grid` expand.grid creates a data frame from all combinations of the supplied vectors or factors. For example:\n",
+    " \n",
+    "  ```expand.grid(0:1, 0:1, 0:1)```\n",
+    "\n",
+    "* generates  \n",
+    "\n",
+    "![](https://www.dropbox.com/s/cnlt4fg8rxd01d6/expand.grid.png?dl=1)\n",
+    " \n",
+    "\n",
+    "* Strategy, use `expand.grid` to generate the permutation for four verctation in the range 0:9\n",
+    "  * Return the number of rows in that `data.frame`\n",
+    "\n",
+    "  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 98,
+   "id": "906941ff",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "?data.frame"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 107,
+   "id": "e559210c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### Write your code here\n",
+    "get_all_perms = function(x){\n",
+    "    data.frame(expand.grid(0:9, 0:9, 0:9, 0:9))\n",
+    "\n",
+    "} "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 108,
+   "id": "5c7bf775",
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<table>\n",
+       "<thead><tr><th scope=col>Var1</th><th scope=col>Var2</th><th scope=col>Var3</th><th scope=col>Var4</th></tr></thead>\n",
+       "<tbody>\n",
+       "\t<tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>1</td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>2</td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>3</td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>4</td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>5</td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>6</td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>7</td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>8</td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>9</td><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>0</td><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>1</td><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>2</td><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>3</td><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>4</td><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>5</td><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>6</td><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>7</td><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>8</td><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>9</td><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>0</td><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>1</td><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>2</td><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>3</td><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>4</td><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>5</td><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>6</td><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>7</td><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>8</td><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>9</td><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>\n",
+       "\t<tr><td>0</td><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>1</td><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>2</td><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>3</td><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>4</td><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>5</td><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>6</td><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>7</td><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>8</td><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>9</td><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>0</td><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>1</td><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>2</td><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>3</td><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>4</td><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>5</td><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>6</td><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>7</td><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>8</td><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>9</td><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>0</td><td>9</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>1</td><td>9</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>2</td><td>9</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>3</td><td>9</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>4</td><td>9</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>5</td><td>9</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>6</td><td>9</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>7</td><td>9</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>8</td><td>9</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>9</td><td>9</td><td>9</td><td>9</td></tr>\n",
+       "</tbody>\n",
+       "</table>\n"
+      ],
+      "text/latex": [
+       "\\begin{tabular}{r|llll}\n",
+       " Var1 & Var2 & Var3 & Var4\\\\\n",
+       "\\hline\n",
+       "\t 0 & 0 & 0 & 0\\\\\n",
+       "\t 1 & 0 & 0 & 0\\\\\n",
+       "\t 2 & 0 & 0 & 0\\\\\n",
+       "\t 3 & 0 & 0 & 0\\\\\n",
+       "\t 4 & 0 & 0 & 0\\\\\n",
+       "\t 5 & 0 & 0 & 0\\\\\n",
+       "\t 6 & 0 & 0 & 0\\\\\n",
+       "\t 7 & 0 & 0 & 0\\\\\n",
+       "\t 8 & 0 & 0 & 0\\\\\n",
+       "\t 9 & 0 & 0 & 0\\\\\n",
+       "\t 0 & 1 & 0 & 0\\\\\n",
+       "\t 1 & 1 & 0 & 0\\\\\n",
+       "\t 2 & 1 & 0 & 0\\\\\n",
+       "\t 3 & 1 & 0 & 0\\\\\n",
+       "\t 4 & 1 & 0 & 0\\\\\n",
+       "\t 5 & 1 & 0 & 0\\\\\n",
+       "\t 6 & 1 & 0 & 0\\\\\n",
+       "\t 7 & 1 & 0 & 0\\\\\n",
+       "\t 8 & 1 & 0 & 0\\\\\n",
+       "\t 9 & 1 & 0 & 0\\\\\n",
+       "\t 0 & 2 & 0 & 0\\\\\n",
+       "\t 1 & 2 & 0 & 0\\\\\n",
+       "\t 2 & 2 & 0 & 0\\\\\n",
+       "\t 3 & 2 & 0 & 0\\\\\n",
+       "\t 4 & 2 & 0 & 0\\\\\n",
+       "\t 5 & 2 & 0 & 0\\\\\n",
+       "\t 6 & 2 & 0 & 0\\\\\n",
+       "\t 7 & 2 & 0 & 0\\\\\n",
+       "\t 8 & 2 & 0 & 0\\\\\n",
+       "\t 9 & 2 & 0 & 0\\\\\n",
+       "\t ... & ... & ... & ...\\\\\n",
+       "\t 0 & 7 & 9 & 9\\\\\n",
+       "\t 1 & 7 & 9 & 9\\\\\n",
+       "\t 2 & 7 & 9 & 9\\\\\n",
+       "\t 3 & 7 & 9 & 9\\\\\n",
+       "\t 4 & 7 & 9 & 9\\\\\n",
+       "\t 5 & 7 & 9 & 9\\\\\n",
+       "\t 6 & 7 & 9 & 9\\\\\n",
+       "\t 7 & 7 & 9 & 9\\\\\n",
+       "\t 8 & 7 & 9 & 9\\\\\n",
+       "\t 9 & 7 & 9 & 9\\\\\n",
+       "\t 0 & 8 & 9 & 9\\\\\n",
+       "\t 1 & 8 & 9 & 9\\\\\n",
+       "\t 2 & 8 & 9 & 9\\\\\n",
+       "\t 3 & 8 & 9 & 9\\\\\n",
+       "\t 4 & 8 & 9 & 9\\\\\n",
+       "\t 5 & 8 & 9 & 9\\\\\n",
+       "\t 6 & 8 & 9 & 9\\\\\n",
+       "\t 7 & 8 & 9 & 9\\\\\n",
+       "\t 8 & 8 & 9 & 9\\\\\n",
+       "\t 9 & 8 & 9 & 9\\\\\n",
+       "\t 0 & 9 & 9 & 9\\\\\n",
+       "\t 1 & 9 & 9 & 9\\\\\n",
+       "\t 2 & 9 & 9 & 9\\\\\n",
+       "\t 3 & 9 & 9 & 9\\\\\n",
+       "\t 4 & 9 & 9 & 9\\\\\n",
+       "\t 5 & 9 & 9 & 9\\\\\n",
+       "\t 6 & 9 & 9 & 9\\\\\n",
+       "\t 7 & 9 & 9 & 9\\\\\n",
+       "\t 8 & 9 & 9 & 9\\\\\n",
+       "\t 9 & 9 & 9 & 9\\\\\n",
+       "\\end{tabular}\n"
+      ],
+      "text/markdown": [
+       "\n",
+       "| Var1 | Var2 | Var3 | Var4 |\n",
+       "|---|---|---|---|\n",
+       "| 0 | 0 | 0 | 0 |\n",
+       "| 1 | 0 | 0 | 0 |\n",
+       "| 2 | 0 | 0 | 0 |\n",
+       "| 3 | 0 | 0 | 0 |\n",
+       "| 4 | 0 | 0 | 0 |\n",
+       "| 5 | 0 | 0 | 0 |\n",
+       "| 6 | 0 | 0 | 0 |\n",
+       "| 7 | 0 | 0 | 0 |\n",
+       "| 8 | 0 | 0 | 0 |\n",
+       "| 9 | 0 | 0 | 0 |\n",
+       "| 0 | 1 | 0 | 0 |\n",
+       "| 1 | 1 | 0 | 0 |\n",
+       "| 2 | 1 | 0 | 0 |\n",
+       "| 3 | 1 | 0 | 0 |\n",
+       "| 4 | 1 | 0 | 0 |\n",
+       "| 5 | 1 | 0 | 0 |\n",
+       "| 6 | 1 | 0 | 0 |\n",
+       "| 7 | 1 | 0 | 0 |\n",
+       "| 8 | 1 | 0 | 0 |\n",
+       "| 9 | 1 | 0 | 0 |\n",
+       "| 0 | 2 | 0 | 0 |\n",
+       "| 1 | 2 | 0 | 0 |\n",
+       "| 2 | 2 | 0 | 0 |\n",
+       "| 3 | 2 | 0 | 0 |\n",
+       "| 4 | 2 | 0 | 0 |\n",
+       "| 5 | 2 | 0 | 0 |\n",
+       "| 6 | 2 | 0 | 0 |\n",
+       "| 7 | 2 | 0 | 0 |\n",
+       "| 8 | 2 | 0 | 0 |\n",
+       "| 9 | 2 | 0 | 0 |\n",
+       "| ... | ... | ... | ... |\n",
+       "| 0 | 7 | 9 | 9 |\n",
+       "| 1 | 7 | 9 | 9 |\n",
+       "| 2 | 7 | 9 | 9 |\n",
+       "| 3 | 7 | 9 | 9 |\n",
+       "| 4 | 7 | 9 | 9 |\n",
+       "| 5 | 7 | 9 | 9 |\n",
+       "| 6 | 7 | 9 | 9 |\n",
+       "| 7 | 7 | 9 | 9 |\n",
+       "| 8 | 7 | 9 | 9 |\n",
+       "| 9 | 7 | 9 | 9 |\n",
+       "| 0 | 8 | 9 | 9 |\n",
+       "| 1 | 8 | 9 | 9 |\n",
+       "| 2 | 8 | 9 | 9 |\n",
+       "| 3 | 8 | 9 | 9 |\n",
+       "| 4 | 8 | 9 | 9 |\n",
+       "| 5 | 8 | 9 | 9 |\n",
+       "| 6 | 8 | 9 | 9 |\n",
+       "| 7 | 8 | 9 | 9 |\n",
+       "| 8 | 8 | 9 | 9 |\n",
+       "| 9 | 8 | 9 | 9 |\n",
+       "| 0 | 9 | 9 | 9 |\n",
+       "| 1 | 9 | 9 | 9 |\n",
+       "| 2 | 9 | 9 | 9 |\n",
+       "| 3 | 9 | 9 | 9 |\n",
+       "| 4 | 9 | 9 | 9 |\n",
+       "| 5 | 9 | 9 | 9 |\n",
+       "| 6 | 9 | 9 | 9 |\n",
+       "| 7 | 9 | 9 | 9 |\n",
+       "| 8 | 9 | 9 | 9 |\n",
+       "| 9 | 9 | 9 | 9 |\n",
+       "\n"
+      ],
+      "text/plain": [
+       "      Var1 Var2 Var3 Var4\n",
+       "1     0    0    0    0   \n",
+       "2     1    0    0    0   \n",
+       "3     2    0    0    0   \n",
+       "4     3    0    0    0   \n",
+       "5     4    0    0    0   \n",
+       "6     5    0    0    0   \n",
+       "7     6    0    0    0   \n",
+       "8     7    0    0    0   \n",
+       "9     8    0    0    0   \n",
+       "10    9    0    0    0   \n",
+       "11    0    1    0    0   \n",
+       "12    1    1    0    0   \n",
+       "13    2    1    0    0   \n",
+       "14    3    1    0    0   \n",
+       "15    4    1    0    0   \n",
+       "16    5    1    0    0   \n",
+       "17    6    1    0    0   \n",
+       "18    7    1    0    0   \n",
+       "19    8    1    0    0   \n",
+       "20    9    1    0    0   \n",
+       "21    0    2    0    0   \n",
+       "22    1    2    0    0   \n",
+       "23    2    2    0    0   \n",
+       "24    3    2    0    0   \n",
+       "25    4    2    0    0   \n",
+       "26    5    2    0    0   \n",
+       "27    6    2    0    0   \n",
+       "28    7    2    0    0   \n",
+       "29    8    2    0    0   \n",
+       "30    9    2    0    0   \n",
+       "...   ...  ...  ...  ... \n",
+       "9971  0    7    9    9   \n",
+       "9972  1    7    9    9   \n",
+       "9973  2    7    9    9   \n",
+       "9974  3    7    9    9   \n",
+       "9975  4    7    9    9   \n",
+       "9976  5    7    9    9   \n",
+       "9977  6    7    9    9   \n",
+       "9978  7    7    9    9   \n",
+       "9979  8    7    9    9   \n",
+       "9980  9    7    9    9   \n",
+       "9981  0    8    9    9   \n",
+       "9982  1    8    9    9   \n",
+       "9983  2    8    9    9   \n",
+       "9984  3    8    9    9   \n",
+       "9985  4    8    9    9   \n",
+       "9986  5    8    9    9   \n",
+       "9987  6    8    9    9   \n",
+       "9988  7    8    9    9   \n",
+       "9989  8    8    9    9   \n",
+       "9990  9    8    9    9   \n",
+       "9991  0    9    9    9   \n",
+       "9992  1    9    9    9   \n",
+       "9993  2    9    9    9   \n",
+       "9994  3    9    9    9   \n",
+       "9995  4    9    9    9   \n",
+       "9996  5    9    9    9   \n",
+       "9997  6    9    9    9   \n",
+       "9998  7    9    9    9   \n",
+       "9999  8    9    9    9   \n",
+       "10000 9    9    9    9   "
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Running this should return 10,000\n",
+    "get_all_perms()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7b5f5dec",
+   "metadata": {},
+   "source": [
+    "Q2. The function above is not very useful since it always computes the same thing, namely the number of possible permutation of digits. One way to make it more useful is by passing as an argument the number of digits to consider, i.e., the number of columns in `expand.grid`. Let;s call that param `size`, which by default should be `4`. For exmaple:\n",
+    "\n",
+    "*  `get_all_perms(size = 1 )` will return all the number of size 1 (0-9)\n",
+    "*  `get_all_perms(size = 3 )` will return all the permutations of size 3 (000 - to 999)\n",
+    "\n",
+    "\n",
+    "* Hint: `expand.grid` requires the number of input parameters to match the permutation length. We need to automate that so that the number of vectors passed as input matches the `size` values passed into `get_all_perms`\n",
+    "  * We can do that using `replicate`\n",
+    "  * `replicate(2, c(1,2,3), simplify=FALSE)` will repeat the vector `c(1,2,3)` twice\n",
+    "    * We need to pass `replicate` the value `simplify=FALSE` so that it does not convert the output for us into a matrix\n",
+    "  * Use pipe (`%>%`) pass the output of `replicate` into expand.grid\n",
+    "  * Make sure replicated generate the correct input for exand.grid\n",
+    "  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 128,
+   "id": "a45bbd1d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### Write your code here\n",
+    "rep_size_perms = function(x){\n",
+    "    replicate(x, c(0:9), simplify = FALSE) %>%\n",
+    "    expand.grid\n",
+    "}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 129,
+   "id": "406ae195",
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<table>\n",
+       "<thead><tr><th scope=col>Var1</th><th scope=col>Var2</th><th scope=col>Var3</th></tr></thead>\n",
+       "<tbody>\n",
+       "\t<tr><td>0</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>1</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>2</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>3</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>4</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>5</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>6</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>7</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>8</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>9</td><td>0</td><td>0</td></tr>\n",
+       "\t<tr><td>0</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>1</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>2</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>3</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>4</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>5</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>6</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>7</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>8</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>9</td><td>1</td><td>0</td></tr>\n",
+       "\t<tr><td>0</td><td>2</td><td>0</td></tr>\n",
+       "\t<tr><td>1</td><td>2</td><td>0</td></tr>\n",
+       "\t<tr><td>2</td><td>2</td><td>0</td></tr>\n",
+       "\t<tr><td>3</td><td>2</td><td>0</td></tr>\n",
+       "\t<tr><td>4</td><td>2</td><td>0</td></tr>\n",
+       "\t<tr><td>5</td><td>2</td><td>0</td></tr>\n",
+       "\t<tr><td>6</td><td>2</td><td>0</td></tr>\n",
+       "\t<tr><td>7</td><td>2</td><td>0</td></tr>\n",
+       "\t<tr><td>8</td><td>2</td><td>0</td></tr>\n",
+       "\t<tr><td>9</td><td>2</td><td>0</td></tr>\n",
+       "\t<tr><td>...</td><td>...</td><td>...</td></tr>\n",
+       "\t<tr><td>0</td><td>7</td><td>9</td></tr>\n",
+       "\t<tr><td>1</td><td>7</td><td>9</td></tr>\n",
+       "\t<tr><td>2</td><td>7</td><td>9</td></tr>\n",
+       "\t<tr><td>3</td><td>7</td><td>9</td></tr>\n",
+       "\t<tr><td>4</td><td>7</td><td>9</td></tr>\n",
+       "\t<tr><td>5</td><td>7</td><td>9</td></tr>\n",
+       "\t<tr><td>6</td><td>7</td><td>9</td></tr>\n",
+       "\t<tr><td>7</td><td>7</td><td>9</td></tr>\n",
+       "\t<tr><td>8</td><td>7</td><td>9</td></tr>\n",
+       "\t<tr><td>9</td><td>7</td><td>9</td></tr>\n",
+       "\t<tr><td>0</td><td>8</td><td>9</td></tr>\n",
+       "\t<tr><td>1</td><td>8</td><td>9</td></tr>\n",
+       "\t<tr><td>2</td><td>8</td><td>9</td></tr>\n",
+       "\t<tr><td>3</td><td>8</td><td>9</td></tr>\n",
+       "\t<tr><td>4</td><td>8</td><td>9</td></tr>\n",
+       "\t<tr><td>5</td><td>8</td><td>9</td></tr>\n",
+       "\t<tr><td>6</td><td>8</td><td>9</td></tr>\n",
+       "\t<tr><td>7</td><td>8</td><td>9</td></tr>\n",
+       "\t<tr><td>8</td><td>8</td><td>9</td></tr>\n",
+       "\t<tr><td>9</td><td>8</td><td>9</td></tr>\n",
+       "\t<tr><td>0</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>1</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>2</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>3</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>4</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>5</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>6</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>7</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>8</td><td>9</td><td>9</td></tr>\n",
+       "\t<tr><td>9</td><td>9</td><td>9</td></tr>\n",
+       "</tbody>\n",
+       "</table>\n"
+      ],
+      "text/latex": [
+       "\\begin{tabular}{r|lll}\n",
+       " Var1 & Var2 & Var3\\\\\n",
+       "\\hline\n",
+       "\t 0 & 0 & 0\\\\\n",
+       "\t 1 & 0 & 0\\\\\n",
+       "\t 2 & 0 & 0\\\\\n",
+       "\t 3 & 0 & 0\\\\\n",
+       "\t 4 & 0 & 0\\\\\n",
+       "\t 5 & 0 & 0\\\\\n",
+       "\t 6 & 0 & 0\\\\\n",
+       "\t 7 & 0 & 0\\\\\n",
+       "\t 8 & 0 & 0\\\\\n",
+       "\t 9 & 0 & 0\\\\\n",
+       "\t 0 & 1 & 0\\\\\n",
+       "\t 1 & 1 & 0\\\\\n",
+       "\t 2 & 1 & 0\\\\\n",
+       "\t 3 & 1 & 0\\\\\n",
+       "\t 4 & 1 & 0\\\\\n",
+       "\t 5 & 1 & 0\\\\\n",
+       "\t 6 & 1 & 0\\\\\n",
+       "\t 7 & 1 & 0\\\\\n",
+       "\t 8 & 1 & 0\\\\\n",
+       "\t 9 & 1 & 0\\\\\n",
+       "\t 0 & 2 & 0\\\\\n",
+       "\t 1 & 2 & 0\\\\\n",
+       "\t 2 & 2 & 0\\\\\n",
+       "\t 3 & 2 & 0\\\\\n",
+       "\t 4 & 2 & 0\\\\\n",
+       "\t 5 & 2 & 0\\\\\n",
+       "\t 6 & 2 & 0\\\\\n",
+       "\t 7 & 2 & 0\\\\\n",
+       "\t 8 & 2 & 0\\\\\n",
+       "\t 9 & 2 & 0\\\\\n",
+       "\t ... & ... & ...\\\\\n",
+       "\t 0 & 7 & 9\\\\\n",
+       "\t 1 & 7 & 9\\\\\n",
+       "\t 2 & 7 & 9\\\\\n",
+       "\t 3 & 7 & 9\\\\\n",
+       "\t 4 & 7 & 9\\\\\n",
+       "\t 5 & 7 & 9\\\\\n",
+       "\t 6 & 7 & 9\\\\\n",
+       "\t 7 & 7 & 9\\\\\n",
+       "\t 8 & 7 & 9\\\\\n",
+       "\t 9 & 7 & 9\\\\\n",
+       "\t 0 & 8 & 9\\\\\n",
+       "\t 1 & 8 & 9\\\\\n",
+       "\t 2 & 8 & 9\\\\\n",
+       "\t 3 & 8 & 9\\\\\n",
+       "\t 4 & 8 & 9\\\\\n",
+       "\t 5 & 8 & 9\\\\\n",
+       "\t 6 & 8 & 9\\\\\n",
+       "\t 7 & 8 & 9\\\\\n",
+       "\t 8 & 8 & 9\\\\\n",
+       "\t 9 & 8 & 9\\\\\n",
+       "\t 0 & 9 & 9\\\\\n",
+       "\t 1 & 9 & 9\\\\\n",
+       "\t 2 & 9 & 9\\\\\n",
+       "\t 3 & 9 & 9\\\\\n",
+       "\t 4 & 9 & 9\\\\\n",
+       "\t 5 & 9 & 9\\\\\n",
+       "\t 6 & 9 & 9\\\\\n",
+       "\t 7 & 9 & 9\\\\\n",
+       "\t 8 & 9 & 9\\\\\n",
+       "\t 9 & 9 & 9\\\\\n",
+       "\\end{tabular}\n"
+      ],
+      "text/markdown": [
+       "\n",
+       "| Var1 | Var2 | Var3 |\n",
+       "|---|---|---|\n",
+       "| 0 | 0 | 0 |\n",
+       "| 1 | 0 | 0 |\n",
+       "| 2 | 0 | 0 |\n",
+       "| 3 | 0 | 0 |\n",
+       "| 4 | 0 | 0 |\n",
+       "| 5 | 0 | 0 |\n",
+       "| 6 | 0 | 0 |\n",
+       "| 7 | 0 | 0 |\n",
+       "| 8 | 0 | 0 |\n",
+       "| 9 | 0 | 0 |\n",
+       "| 0 | 1 | 0 |\n",
+       "| 1 | 1 | 0 |\n",
+       "| 2 | 1 | 0 |\n",
+       "| 3 | 1 | 0 |\n",
+       "| 4 | 1 | 0 |\n",
+       "| 5 | 1 | 0 |\n",
+       "| 6 | 1 | 0 |\n",
+       "| 7 | 1 | 0 |\n",
+       "| 8 | 1 | 0 |\n",
+       "| 9 | 1 | 0 |\n",
+       "| 0 | 2 | 0 |\n",
+       "| 1 | 2 | 0 |\n",
+       "| 2 | 2 | 0 |\n",
+       "| 3 | 2 | 0 |\n",
+       "| 4 | 2 | 0 |\n",
+       "| 5 | 2 | 0 |\n",
+       "| 6 | 2 | 0 |\n",
+       "| 7 | 2 | 0 |\n",
+       "| 8 | 2 | 0 |\n",
+       "| 9 | 2 | 0 |\n",
+       "| ... | ... | ... |\n",
+       "| 0 | 7 | 9 |\n",
+       "| 1 | 7 | 9 |\n",
+       "| 2 | 7 | 9 |\n",
+       "| 3 | 7 | 9 |\n",
+       "| 4 | 7 | 9 |\n",
+       "| 5 | 7 | 9 |\n",
+       "| 6 | 7 | 9 |\n",
+       "| 7 | 7 | 9 |\n",
+       "| 8 | 7 | 9 |\n",
+       "| 9 | 7 | 9 |\n",
+       "| 0 | 8 | 9 |\n",
+       "| 1 | 8 | 9 |\n",
+       "| 2 | 8 | 9 |\n",
+       "| 3 | 8 | 9 |\n",
+       "| 4 | 8 | 9 |\n",
+       "| 5 | 8 | 9 |\n",
+       "| 6 | 8 | 9 |\n",
+       "| 7 | 8 | 9 |\n",
+       "| 8 | 8 | 9 |\n",
+       "| 9 | 8 | 9 |\n",
+       "| 0 | 9 | 9 |\n",
+       "| 1 | 9 | 9 |\n",
+       "| 2 | 9 | 9 |\n",
+       "| 3 | 9 | 9 |\n",
+       "| 4 | 9 | 9 |\n",
+       "| 5 | 9 | 9 |\n",
+       "| 6 | 9 | 9 |\n",
+       "| 7 | 9 | 9 |\n",
+       "| 8 | 9 | 9 |\n",
+       "| 9 | 9 | 9 |\n",
+       "\n"
+      ],
+      "text/plain": [
+       "     Var1 Var2 Var3\n",
+       "1    0    0    0   \n",
+       "2    1    0    0   \n",
+       "3    2    0    0   \n",
+       "4    3    0    0   \n",
+       "5    4    0    0   \n",
+       "6    5    0    0   \n",
+       "7    6    0    0   \n",
+       "8    7    0    0   \n",
+       "9    8    0    0   \n",
+       "10   9    0    0   \n",
+       "11   0    1    0   \n",
+       "12   1    1    0   \n",
+       "13   2    1    0   \n",
+       "14   3    1    0   \n",
+       "15   4    1    0   \n",
+       "16   5    1    0   \n",
+       "17   6    1    0   \n",
+       "18   7    1    0   \n",
+       "19   8    1    0   \n",
+       "20   9    1    0   \n",
+       "21   0    2    0   \n",
+       "22   1    2    0   \n",
+       "23   2    2    0   \n",
+       "24   3    2    0   \n",
+       "25   4    2    0   \n",
+       "26   5    2    0   \n",
+       "27   6    2    0   \n",
+       "28   7    2    0   \n",
+       "29   8    2    0   \n",
+       "30   9    2    0   \n",
+       "...  ...  ...  ... \n",
+       "971  0    7    9   \n",
+       "972  1    7    9   \n",
+       "973  2    7    9   \n",
+       "974  3    7    9   \n",
+       "975  4    7    9   \n",
+       "976  5    7    9   \n",
+       "977  6    7    9   \n",
+       "978  7    7    9   \n",
+       "979  8    7    9   \n",
+       "980  9    7    9   \n",
+       "981  0    8    9   \n",
+       "982  1    8    9   \n",
+       "983  2    8    9   \n",
+       "984  3    8    9   \n",
+       "985  4    8    9   \n",
+       "986  5    8    9   \n",
+       "987  6    8    9   \n",
+       "988  7    8    9   \n",
+       "989  8    8    9   \n",
+       "990  9    8    9   \n",
+       "991  0    9    9   \n",
+       "992  1    9    9   \n",
+       "993  2    9    9   \n",
+       "994  3    9    9   \n",
+       "995  4    9    9   \n",
+       "996  5    9    9   \n",
+       "997  6    9    9   \n",
+       "998  7    9    9   \n",
+       "999  8    9    9   \n",
+       "1000 9    9    9   "
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "rep_size_perms(3)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d826dbff",
+   "metadata": {},
+   "source": [
+    "Q3.\n",
+    "\n",
+    "* Given a fish disease that occurs with a probability of p= 0.43\n",
+    "* You sampled 340 animals\n",
+    "* How many of these animals should you expect to see the disease in?\n",
+    "* Hint: you will need to compute the probability of each element of the sample space and find the value that has the highest probability"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 78,
+   "id": "8ec880ab",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  [1]  9.941477e-84  2.549902e-81  3.260519e-79  2.771251e-77  1.761324e-75\n",
+      "  [6]  8.928987e-74  3.760879e-72  1.353728e-70  4.250884e-69  1.182955e-67\n",
+      " [11]  2.953860e-66  6.685053e-65  1.382653e-63  2.631705e-62  4.637143e-61\n",
+      " [16]  7.602745e-60  1.165004e-58  1.675009e-57  2.267466e-56  2.898922e-55\n",
+      " [21]  3.509985e-54  4.034870e-53  4.413581e-52  4.603456e-51  4.586967e-50\n",
+      " [26]  4.373874e-49  3.997579e-48  3.507168e-47  2.957580e-46  2.400417e-45\n",
+      " [31]  1.877238e-44  1.416162e-43  1.031609e-42  7.263492e-42  4.947645e-41\n",
+      " [36]  3.263214e-40  2.085626e-39  1.292712e-38  7.775970e-38  4.542454e-37\n",
+      " [41]  2.578639e-36  1.423382e-35  7.644289e-35  3.996488e-34  2.035054e-33\n",
+      " [46]  1.009831e-32  4.885471e-32  2.305417e-31  1.061621e-30  4.772543e-30\n",
+      " [51]  2.095398e-29  8.988514e-29  3.768565e-28  1.544850e-27  6.193954e-27\n",
+      " [56]  2.429768e-26  9.328575e-26  3.506327e-25  1.290638e-24  4.653665e-24\n",
+      " [61]  1.644159e-23  5.693320e-23  1.932732e-22  6.433830e-22  2.100695e-21\n",
+      " [66]  6.729027e-21  2.115118e-20  6.525353e-20  1.976293e-19  5.877123e-19\n",
+      " [71]  1.716444e-18  4.924120e-18  1.387848e-17  3.843683e-17  1.046214e-16\n",
+      " [76]  2.799205e-16  7.363097e-16  1.904440e-15  4.844200e-15  1.211964e-14\n",
+      " [81]  2.982868e-14  7.222972e-14  1.721058e-13  4.035809e-13  9.314898e-13\n",
+      " [86]  2.116376e-12  4.733998e-12  1.042644e-11  2.261349e-11  4.830273e-11\n",
+      " [91]  1.016241e-10  2.106147e-10  4.300251e-10  8.650798e-10  1.714821e-09\n",
+      " [96]  3.349839e-09  6.449298e-09  1.223839e-08  2.289275e-08  4.221548e-08\n",
+      "[101]  7.675070e-08  1.375833e-07  2.431964e-07  4.239264e-07  7.287844e-07\n",
+      "[106]  1.235707e-06  2.066669e-06  3.409547e-06  5.549098e-06  8.909996e-06\n",
+      "[111]  1.411531e-05  2.206423e-05  3.403298e-05  5.180241e-05  7.781522e-05\n",
+      "[116]  1.153636e-04  1.688056e-04  2.438050e-04  3.475834e-04  4.891687e-04\n",
+      "[121]  6.796156e-04  9.321681e-04  1.262328e-03  1.687785e-03  2.228172e-03\n",
+      "[126]  2.904598e-03  3.738932e-03  4.752819e-03  5.966429e-03  7.396976e-03\n",
+      "[131]  9.057053e-03  1.095289e-02  1.308261e-02  1.543476e-02  1.798701e-02\n",
+      "[136]  2.070551e-02  2.354477e-02  2.644830e-02  2.935001e-02  3.217647e-02\n",
+      "[141]  3.484978e-02  3.729105e-02  3.942420e-02  4.117993e-02  4.249942e-02\n",
+      "[146]  4.333758e-02  4.366566e-02  4.347284e-02  4.276684e-02  4.157342e-02\n",
+      "[151]  3.993479e-02  3.790720e-02  3.555769e-02  3.296048e-02  3.019312e-02\n",
+      "[156]  2.733272e-02  2.445252e-02  2.161899e-02  1.888961e-02  1.631139e-02\n",
+      "[161]  1.392012e-02  1.174041e-02  9.786218e-03  8.061964e-03  6.563929e-03\n",
+      "[166]  5.281852e-03  4.200585e-03  3.301689e-03  2.564877e-03  1.969255e-03\n",
+      "[171]  1.494317e-03  1.120699e-03  8.306938e-04  6.085521e-04  4.406143e-04\n",
+      "[176]  3.152987e-04  2.229909e-04  1.558660e-04  1.076744e-04  7.351366e-05\n",
+      "[181]  4.960381e-05  3.307882e-05  2.180065e-05  1.419937e-05  9.139962e-06\n",
+      "[186]  5.814212e-06  3.655133e-06  2.270785e-06  1.394130e-06  8.458211e-07\n",
+      "[191]  5.071021e-07  3.004325e-07  1.758837e-07  1.017475e-07  5.816112e-08\n",
+      "[196]  3.285070e-08  1.833370e-08  1.010974e-08  5.508134e-09  2.965059e-09\n",
+      "[201]  1.576943e-09  8.285937e-10  4.301290e-10  2.205847e-10  1.117530e-10\n",
+      "[206]  5.592912e-11  2.765019e-11  1.350287e-11  6.513405e-12  3.103340e-12\n",
+      "[211]  1.460410e-12  6.787806e-13  3.115852e-13  1.412540e-13  6.323891e-14\n",
+      "[216]  2.795826e-14  1.220562e-14  5.261572e-15  2.239534e-15  9.411677e-16\n",
+      "[221]  3.905020e-16  1.599580e-16  6.468349e-17  2.582047e-17  1.017409e-17\n",
+      "[226]  3.956988e-18  1.518965e-18  5.754669e-19  2.151580e-19  7.938412e-20\n",
+      "[231]  2.890163e-20  1.038237e-20  3.679839e-21  1.286738e-21  4.438659e-22\n",
+      "[236]  1.510370e-22  5.069373e-23  1.678158e-23  5.478816e-24  1.763935e-24\n",
+      "[241]  5.599978e-25  1.752923e-25  5.409739e-26  1.645848e-26  4.935887e-27\n",
+      "[246]  1.459029e-27  4.250559e-28  1.220311e-28  3.452196e-29  9.622270e-30\n",
+      "[251]  2.642241e-30  7.147183e-31  1.904224e-31  4.996590e-32  1.291079e-32\n",
+      "[256]  3.284768e-33  8.227678e-34  2.028696e-34  4.923444e-35  1.175917e-35\n",
+      "[261]  2.763643e-36  6.390356e-37  1.453598e-37  3.252198e-38  7.155786e-39\n",
+      "[266]  1.548170e-39  3.293001e-40  6.885031e-41  1.414776e-41  2.856679e-42\n",
+      "[271]  5.666953e-43  1.104262e-43  2.113225e-44  3.970869e-45  7.324929e-46\n",
+      "[276]  1.326198e-46  2.356167e-47  4.106766e-48  7.020844e-49  1.176984e-49\n",
+      "[281]  1.934353e-50  3.115834e-51  4.917800e-52  7.603368e-53  1.151214e-53\n",
+      "[286]  1.706447e-54  2.475615e-55  3.513893e-56  4.878267e-57  6.621626e-58\n",
+      "[291]  8.784771e-59  1.138678e-59  1.441478e-60  1.781456e-61  2.148420e-62\n",
+      "[296]  2.527253e-63  2.898432e-64  3.239313e-65  3.526133e-66  3.736546e-67\n",
+      "[301]  3.852357e-68  3.862012e-69  3.762400e-70  3.559586e-71  3.268295e-72\n",
+      "[306]  2.910164e-73  2.511064e-74  2.097934e-75  1.695699e-76  1.324750e-77\n",
+      "[311]  9.993725e-79  7.272469e-80  5.099397e-81  3.441329e-82  2.232307e-83\n",
+      "[316]  1.389985e-84  8.295772e-86  4.738080e-87  2.585215e-88  1.345000e-89\n",
+      "[321]  6.658635e-91  3.129708e-92  1.393141e-93  5.856777e-95  2.318228e-96\n",
+      "[326]  8.609668e-98  2.988503e-99 9.652227e-101 2.885962e-102 7.940898e-104\n",
+      "[331] 1.996834e-105 4.551007e-107 9.306911e-109 1.686728e-110 2.666798e-112\n",
+      "[336] 3.603215e-114 4.044962e-116 3.621914e-118 2.425137e-120 1.079345e-122\n",
+      "[341] 2.394831e-125\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "147"
+      ],
+      "text/latex": [
+       "147"
+      ],
+      "text/markdown": [
+       "147"
+      ],
+      "text/plain": [
+       "[1] 147"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "### Write your code here\n",
+    "?dbinom\n",
+    "\n",
+    "prob_disease <- dbinom(c(0:340), 340, 0.43)\n",
+    "print(prob_disease)\n",
+    "\n",
+    "which.max(prob_disease)\n",
+    "#Answer is actually 146 because you started the sample at 0, therefor, even though the max value is given at position 147, you subtract that 0 position"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2e17347b",
+   "metadata": {},
+   "source": [
+    "Q4. Plot the two following distributions:\n",
+    "\n",
+    "$$\n",
+    "x \\sim \\mathcal{N}(10, 0.5) \\\\\n",
+    "y \\sim \\mathcal{N}(10.2, 0.5) \\\\\n",
+    "$$\n",
+    "\n",
+    "* Your plot should look like the following\n",
+    "![](https://www.dropbox.com/s/psrjtl6abjla7z5/sample_gaussian_plot.png?dl=1)\n",
+    "\n",
+    "\n",
+    "* Draw 40 values from the first distribution and store them in a variable called `x_sample`\n",
+    "* Draw 40 values from the second distribution and store them in a variable called `y_sample`\n",
+    "  * make sure you run the following line before you sample data\n",
+    "  ```set.seed(42)```\n",
+    " \n",
+    "* Do a `t-`test to compute the `x_sample` and `y_sample`\n",
+    "  * A `t-`test compares two vectors of values and predicts if the two vectors are from the same distribution\n",
+    "  * The format for the t-test in R is\n",
+    " \n",
+    " `t.test(x,y)` where `x` an `y` are the vectors of values we would like to compare.\n",
+    "  * Look at the `p-value`, if it's smaller than say 0.05, then there is a statistically significant difference between the two datasets.\n",
+    "\n",
+    "* Do you agree with the conclusion of the `t-test`. In other words, would you be comfortable reporting in a publication that the data in `x_sample` and `y_sample` are statistically different?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "id": "19d87f97",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "?geom_line"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 69,
+   "id": "756f4ec4",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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\nAAAASUVORK5CYII=",
+      "text/plain": [
+       "plot without title"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Write the code to draw the plot here\n",
+    "x_vals <- seq(8, 12, 0.1)\n",
+    "prob_1 <- dnorm(x_vals, mean = 10, sd = 0.5)\n",
+    "prob_2 <- dnorm(x_vals, mean = 10.2, sd = 0.5)\n",
+    "\n",
+    "ggplot() + \n",
+    "  geom_line(aes(x=x_vals, y=prob_1, colour=\"red\"))+\n",
+    "  geom_line(aes(x=x_vals, y=prob_2, colour=\"blue\"))+\n",
+    "  scale_color_manual(labels = c(\"N(1, 2.3)\", \"N(0, 1)\"), values = c(\"blue\", \"red\"))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "id": "67810bdb",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      " [1] 10.685479  9.717651 10.181564 10.316431 10.202134  9.946938 10.755761\n",
+      " [8]  9.952670 11.009212  9.968643 10.652435 11.143323  9.305570  9.860606\n",
+      "[15]  9.933339 10.317975  9.857874  8.671772  8.779767 10.660057  9.846681\n",
+      "[22]  9.109346  9.914041 10.607337 10.947597  9.784765  9.871365  9.118418\n",
+      "[29] 10.230049  9.680003 10.227725 10.352419 10.517552  9.695537 10.252478\n",
+      "[36]  9.141496  9.607770  9.574546  8.792896 10.018061\n",
+      " [1] 10.302999 10.019471 10.579082  9.836648  9.515859 10.416409  9.794303\n",
+      " [8] 10.922051  9.984277 10.527824 10.360963  9.808081 10.987864 10.521450\n",
+      "[15] 10.244880 10.338275 10.539644 10.244916  8.703455 10.342441 10.016383\n",
+      "[22] 10.292615 10.490912 10.899868  9.836354 10.851271 10.367924 10.719253\n",
+      "[29] 10.660364 10.560439  9.678441 10.154907 10.511759  9.723238  9.928586\n",
+      "[36] 10.490498 10.584089 10.431884  9.757112  9.650110\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Write the code to run your t-test here\n",
+    "set.seed(42)\n",
+    "\n",
+    "x_sample <- rnorm(40, 10, 0.5)\n",
+    "print(x_sample)\n",
+    "\n",
+    "y_sample <- rnorm(40, 10.2, 0.5)\n",
+    "print(y_sample)\n",
+    "\n",
+    "#sample is to draw from a population vs. rnorm samples from a distribution"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "id": "f59a3c96",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "\n",
+       "\tWelch Two Sample t-test\n",
+       "\n",
+       "data:  x_sample and y_sample\n",
+       "t = -2.1504, df = 72.3, p-value = 0.03486\n",
+       "alternative hypothesis: true difference in means is not equal to 0\n",
+       "95 percent confidence interval:\n",
+       " -0.50040708 -0.01897381\n",
+       "sample estimates:\n",
+       "mean of x mean of y \n",
+       " 9.980232 10.239922 \n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "t.test(x_sample, y_sample)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9fedba3e",
+   "metadata": {},
+   "source": [
+    "Q5. Challenge\n",
+    "\n",
+    "* We have used the function `dnorm` to plot the bell-shaped curve for a distribution $ x \\sim \\mathcal{N}(10, 0.5)$\n",
+    "  * Use seq(8, 12, 0.1) to generate the x-axis values\n",
+    "  * The pdf should look like the following\n",
+    "\n",
+    "![](https://www.dropbox.com/s/jl2c2atpkxze7ev/sample_pdf_sum_question.png?dl=1)\n",
+    "\n",
+    "* Use `dnorm` to compute the probability density for each point along the $x-$axis generated using `seq()` above\n",
+    "  * What do you notice?\n",
+    "  * How do you fix that?\n",
+    "  \n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "e6acec6e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Write the code to run your t-test here"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "45e81b73",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "9.99959885434281"
+      ],
+      "text/latex": [
+       "9.99959885434281"
+      ],
+      "text/markdown": [
+       "9.99959885434281"
+      ],
+      "text/plain": [
+       "[1] 9.999599"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sum(probs)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "5ef242fc",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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\ngJAAHPg/hnrQ0bLOOVIAAAAASUVORK5CYII=",
+      "text/plain": [
+       "plot without title"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "x_vals <- seq(8, 12, 0.1)\n",
+    "probs <- dnorm(x_vals, mean = 10, sd = 0.5)\n",
+    "\n",
+    "ggplot() + \n",
+    "  geom_line(aes(x=x_vals, y=probs), size=1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "89180210",
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[1] 0.9999599\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(sum(probs*0.1))"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "R",
+   "language": "R",
+   "name": "ir"
+  },
+  "language_info": {
+   "codemirror_mode": "r",
+   "file_extension": ".r",
+   "mimetype": "text/x-r-source",
+   "name": "R",
+   "pygments_lexer": "r",
+   "version": "3.6.1"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
